@@ -1,6 +1,4 @@
 #!/bin/bash
-# Зависимости: jq (https://github.com/stedolan/jq/)
-
 # смотрим аргументы
 LINKS=$1
 
@@ -20,7 +18,12 @@ do
   title=$(cat $1 | jq ".response.items[$i].title" | cut -c 2- | rev | cut -c 2- | rev)
   url=$(cat $1 | jq ".response.items[$i].url" | cut -c 2- | rev | cut -c 2- | rev)
 
-  wget $url -O "$DIR/$artist — $title" # -P $DIR не работает, так как использую -O
+  if [ -e "$DIR/$artist — $title.mp3" ] # файл существует с таким именем?
+  then
+    mv "$DIR/$artist — $title.mp3" "$DIR/$artist — $title.$(date +%Y%m%d%H%M%S).mp3" # добавляем дату, не паримся
+  fi
+
+  wget $url -O "$DIR/$artist — $title.mp3" # -P $DIR не работает, так как использую -O
   
   info=$(($i + 1))
   echo "Загрузил $artist — $title! Это $info из $count"
