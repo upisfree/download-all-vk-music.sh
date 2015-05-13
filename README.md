@@ -22,4 +22,5 @@ sudo cp jq /usr/bin
 
 # Ставим скачивальщик
 git clone https://github.com/upisfree/download-all-vk-music.sh.git
-./download.sh
+./download.sh <vk's json> <path/to/folder>
+```
