@@ -16,8 +16,8 @@ echo "Начал загружать песенки. Всего их $count. Ух
 
 for (( i = 0; i < $count; i++ ))
 do
-  artist=$(cat $1 | jq ".response.items[$i].artist" | cut -c 2- | rev | cut -c 2- | rev) # берём файл, вычленяем нужное поле, режем первую кавычку (первый символ), режем вторую кавычку (второй символ)
-  title=$(cat $1 | jq ".response.items[$i].title" | cut -c 2- | rev | cut -c 2- | rev)
+  artist=$(cat $1 | jq ".response.items[$i].artist" | cut -c 2- | rev | cut -c 2- | rev | sed -e 's/[\/\\:\*\?"<>\|\b\0\t]/_/g') # берём файл, вычленяем нужное поле, режем первую кавычку (первый символ), режем вторую кавычку (второй символ)
+  title=$(cat $1 | jq ".response.items[$i].title" | cut -c 2- | rev | cut -c 2- | rev | sed -e 's/[\/\\:\*\?"<>\|\b\0\t]/_/g')
   url=$(cat $1 | jq ".response.items[$i].url" | cut -c 2- | rev | cut -c 2- | rev)
 
   echo "Загружаю $artist — $title..."
